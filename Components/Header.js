@@ -22,13 +22,14 @@ const Header = props =>{
 const styles=StyleSheet.create({
 
   greyline:{
-    width:355,
+    width:400,
     borderWidth:0.5,
   },
 
   container:{
-    width:'100%',
-    height: 95,    
+    width:400,
+    height: 95, 
+    marginLeft:10   
   },
   header:{
     width:'100%',
@@ -40,7 +41,8 @@ const styles=StyleSheet.create({
   },
 
   item1:{
-    marginRight:140,
+    marginRight:130,
+    paddingLeft:10
   },
 
   headerTitle:{
@@ -51,7 +53,7 @@ const styles=StyleSheet.create({
   bmscelogo:{
       width:40,
       height:40,
-      marginLeft:140,
+      marginLeft:180,
   }
 
 });
