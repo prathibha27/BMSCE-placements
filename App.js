@@ -10,12 +10,16 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
 import Notifications from './Screens/Notifications';
-
+import Profile2 from './Screens/Profile2';
+import Profile3 from './Screens/Profile3';
+import Profile4 from './Screens/Profile4';
+import Profile5 from './Screens/Profile5';
 export default function App() {
   return (
-    <NavigationContainer style={styles.container}>
-      <MyTabs/>
-    </NavigationContainer>
+    // <NavigationContainer style={styles.container}>
+    //   <MyTabs/>
+    // </NavigationContainer>
+    <Profile2/>
   );
 }
 

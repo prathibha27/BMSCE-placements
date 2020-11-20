@@ -5,7 +5,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Colors from '../Constants/Colors';
 import Experiences from '../Screens/Experiences';
 import Notifications from '../Screens/Notifications';
-import Profile from '../Screens/Profile';
+import Profile from '../Screens/Profile1';
 import GreyLine from '../Components/GreyLine';
 
 
