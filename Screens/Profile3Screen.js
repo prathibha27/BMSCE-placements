@@ -3,8 +3,15 @@ import { StyleSheet, Text, TouchableOpacity ,View ,Image,TextInput} from "react-
 import  Header  from '../Components/Header';
 import Colors from '../Constants/Colors';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Profile4 from './Profile4Screen';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-const Profile4=props=>{
+const Profile3=props=>{
+
+const navigateHandler=()=>{
+    console.log("Clicked");
+    props.navigation.navigate('Profile4');
+}
 
 return (
     <View style={styles.screen}>
@@ -17,7 +24,7 @@ return (
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
-            placeholder="B.E(Branch)" 
+            placeholder="Gender" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
             //onChangeText={onPasswordChange}
@@ -25,7 +32,7 @@ return (
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
-            placeholder="Active Backlogs" 
+            placeholder="Date of birth" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
             //onChangeText={onPasswordChange}
@@ -33,7 +40,15 @@ return (
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
-            placeholder="Number of backlogs" 
+            placeholder="10th Percentage" 
+            placeholderTextColor={Colors.blue}
+            autoCorrect={false} 
+            //onChangeText={onPasswordChange}
+            />
+            <TextInput 
+            style={styles.textInput} 
+            textAlign={'left'} 
+            placeholder="12th Percentage" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
             //onChangeText={onPasswordChange}
@@ -42,7 +57,7 @@ return (
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
-            placeholder="Email ID" 
+            placeholder="Diploma Percentage" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
             //onChangeText={onPasswordChange}
@@ -51,38 +66,27 @@ return (
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
-            placeholder="Contact number" 
+            placeholder="B.E(CGPA)" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
             //onChangeText={onPasswordChange}
             />
 
-            <TextInput 
-            style={styles.textInput} 
-            textAlign={'left'} 
-            placeholder="Resedential Address" 
-            placeholderTextColor={Colors.blue}
-            autoCorrect={false} 
-            //onChangeText={onPasswordChange}
-            />
-        </View>
-        <View style={styles.arrow_container}>
-            <Ionicons name='md-arrow-back' size={30} color={Colors.gray} style={styles.arrow_left} />
-            <Ionicons name='md-arrow-forward' size={30} color={Colors.gray} style={styles.arrow_right} />
+            <View style={styles.arrow_container}>
+                <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate('Profile2Screen');}}>
+                    <Ionicons name='md-arrow-back' size={30} color={Colors.gray} style={styles.arrow_left} />
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate('Profile4Screen');}}>
+                    <Ionicons name='md-arrow-forward' size={30} color={Colors.gray} style={styles.arrow_right} />
+                </TouchableWithoutFeedback>
+                
+            </View>
         </View>
     </View>
 
 );
 }
 const styles=StyleSheet.create({
-
-    arrow_left:{
-        marginRight:155
-    },
-
-    arrow_right:{
-        marginLeft:155
-    },
 
     screen:{
         flex:1,
@@ -95,10 +99,6 @@ const styles=StyleSheet.create({
     inner_container:{
         flexDirection:'row',
         justifyContent:'space-between',
-        marginTop:10
-    },
-    arrow_container:{
-        flexDirection:'row',
         marginTop:10
     },
 
@@ -120,5 +120,18 @@ const styles=StyleSheet.create({
         marginVertical:10
     },
 
+    arrow_left:{
+        marginRight:155
+    },
+
+    arrow_right:{
+        marginLeft:155
+    },
+
+    arrow_container:{
+        flexDirection:'row',
+        marginTop:10
+    }
+
 });
-export default Profile4;
+export default Profile3;

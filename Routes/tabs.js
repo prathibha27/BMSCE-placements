@@ -3,10 +3,12 @@ import { Text, View } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Colors from '../Constants/Colors';
-import Experiences from '../Screens/Experiences';
-import Notifications from '../Screens/Notifications';
-import Profile from '../Screens/Profile1';
+import Experiences from '../Screens/ExperiencesScreen';
+import Notifications from '../Screens/NotificationsScreen';
+import Profile from '../Screens/Profile2Screen';
 import GreyLine from '../Components/GreyLine';
+import StackExpNavigation from '../Routes/StackExpNavigation';
+import StackProfileNavigation from '../Routes/StackProfileNavigation';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -14,15 +16,15 @@ const Tab = createMaterialBottomTabNavigator();
 export default function MyTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
-      activeColor={Colors.pureblue}
+      initialRouteName="Home"
+      activeColor={Colors.blue}
       inactiveColor={Colors.gray}
       labelStyle={{ fontSize: 12 }}
       barStyle={{ backgroundColor: 'black' }}
     >
       <Tab.Screen
         name="Home"
-        component={Experiences}
+        component={StackExpNavigation}
         options={{
           //tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
@@ -32,7 +34,7 @@ export default function MyTabs() {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={StackProfileNavigation}
         options={{
           //tabBarLabel: 'Profile',
           tabBarIcon: ({ color }) => (

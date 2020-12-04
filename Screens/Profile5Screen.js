@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity ,View ,Image,TextInput} from "react-native";
+import { StyleSheet, Text, TouchableOpacity ,View ,Image,TextInput,TouchableWithoutFeedback} from "react-native";
 //import { CheckBox } from 'react-native-elements';
 import  Header  from '../Components/Header';
 import Colors from '../Constants/Colors';
@@ -25,7 +25,7 @@ return (
                 <Text style={styles.upload_button_text}>UPLOAD</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.confirm}>
+            <TouchableOpacity style={styles.confirm} onPress={()=>{props.navigation.pop();}}>
                 <Text style={styles.confirm_text}>Confirm</Text>
             </TouchableOpacity>
         </View>
@@ -67,7 +67,7 @@ const styles=StyleSheet.create({
     upload_button:{
         borderRadius:20,
         width:130,
-        backgroundColor:Colors.bluegray, 
+        backgroundColor:'rgba(32, 161, 238,0.12)', 
         flexDirection:'row',
         justifyContent:'space-around',
         paddingHorizontal:10,

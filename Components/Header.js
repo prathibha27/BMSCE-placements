@@ -9,7 +9,7 @@ const Header = props =>{
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Ionicons name='md-menu' size={40} color={'#0000ff'} style={styles.item1} />
+        <Ionicons name='md-menu' size={40} color={Colors.blue} style={styles.item1} />
         <Image source={Images.bmscelogo} style={styles.bmscelogo}/>
       </View>
       <GreyLine styles={styles.greyline}/>
@@ -23,7 +23,7 @@ const styles=StyleSheet.create({
 
   greyline:{
     width:400,
-    borderWidth:0.5,
+    borderWidth:1,
   },
 
   container:{

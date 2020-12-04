@@ -1,15 +1,15 @@
 import React from 'react';
 import Images from '../Constants/Images';
-import { StyleSheet, Text, TouchableOpacity ,View ,Image,TextInput} from "react-native";
+import { StyleSheet, Text, View ,Image,TextInput ,TouchableWithoutFeedback} from "react-native";
 import  Header  from '../Components/Header';
 import Colors from '../Constants/Colors';
+import { TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Profile3 from './Profile3';
+import Profile3 from './Profile3Screen';
 
 
 const Profile2=props=>{
 const navigateHandler = () =>{
-    console.log
     props.navigation.navigate('Profile3');
 }
 return (
@@ -52,9 +52,9 @@ return (
             //onChangeText={onPasswordChange}
             />
 
-            <TouchableOpacity onPress={navigateHandler}>
+            <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate('Profile3Screen');}}>
                 <Ionicons name='md-arrow-forward' size={30} color={Colors.gray} style={styles.arrow_right} /> 
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
              
         </View>
     </View>

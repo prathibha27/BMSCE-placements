@@ -2,17 +2,18 @@ import React,{useState} from 'react';
 import {View,StyleSheet,Image, TextInput,Text,Button, TouchableOpacity, Alert} from 'react-native';
 import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
-import firebase from '../firebase';
+import * as firebase from 'firebase';
+import GreyLine from '../Components/GreyLine';
 
 const Login=props=>{
 const [email,setEmail]=useState('');
-const [entererdEmail,setEnteredEmail]=useState('');
+const [enteredEmail,setEnteredEmail]=useState('');
 const [password,setPassword]=useState('');
 const [enteredPassword,setEnteredPassword]=useState('');
 
 const onEmailChange = inputText =>{
     setEnteredEmail(inputText);
-    //console.log(entererdEmail);
+    //console.log(enteredEmail);
 };
 
 const onPasswordChange =inputText =>{
@@ -21,20 +22,34 @@ const onPasswordChange =inputText =>{
 };
 
 const Onlogin = () =>{
-    setEmail(entererdEmail);
-    setPassword(enteredPassword);
-    if(password.length<6)
-    {
-        Alert.alert("Password should be greater than 6");
-        return;
-    }
+    console.log(enteredEmail);
+    console.log(enteredPassword);
+    
     try{
-        firebase.auth().signInwithEmailAndPassword(email,password);
+        // if(password.length<=6)
+        // {
+        //     Alert.alert("Password should be more than 6 letters");
+        //     return;
+        // }
+        // else{
+            firebase.auth().signInWithEmailAndPassword(enteredEmail, enteredPassword)
+                .then((user) => {
+                    // Signed in 
+                    // ...
+
+                    console.log("signed in");
+                })
+                .catch((error) => {
+                    //var errorMessage = error.message;
+                    console.log(error.message);
+                });
+            
+        }
+    //}
+    catch(error){
+        console.log(error.message);
     }
-    catch(error)
-    {
-        console.log(error);
-    }
+    //props.navigation.navigate('StackExpNavigation');
     
 }
 
@@ -65,17 +80,17 @@ return (
         >
             <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
+
         <View style={styles.seperator}>
-            <View style={{borderBottomColor:'#ffffff',borderBottomWidth:1}}></View>
-            <Text style={{color:'#ffffff',fontSize:18}}>or</Text>
-            <View style={{borderBottomColor:'#ffffff',borderBottomWidth:1}}></View>
+            <GreyLine styles={styles.greyline}/>
+            <Text style={{color:'#ffffff',fontSize:18,marginHorizontal:20}}>or</Text>
+            <GreyLine styles={styles.greyline}/>
         </View>
+
         <TouchableOpacity style={styles.buttonContainergoogle}>
             <Image source={Images.google} style={styles.googlelogo}/>
             <Text style={styles.google}>Sign In with Google</Text>
         </TouchableOpacity>
-
-        
 
     </View>
 );
@@ -88,15 +103,18 @@ const styles=StyleSheet.create({
         alignItems:'center'
     },
 
+    greyline:{
+        width:150,
+        borderWidth:1,
+        alignSelf:"center"
+
+    },
+
     seperator:{
         flexDirection:'row',
         marginBottom:15,
         marginTop:25,
-    },
-
-    seperatorLine:{
-        borderBottomWidth:1,
-        borderBottomColor:'#ffffff',
+        alignItems:"center"
     },
 
     googlelogo:{
@@ -118,7 +136,7 @@ const styles=StyleSheet.create({
         height:50,
         alignItems:'center',
         justifyContent:"space-around",
-        backgroundColor:Colors.blue,
+        backgroundColor:'rgba(32, 161, 238,0.12)',
         opacity:14,
     },
 
