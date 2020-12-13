@@ -4,35 +4,161 @@ import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import * as firebase from 'firebase';
 import GreyLine from '../Components/GreyLine';
+import * as Google from 'expo-google-app-auth';
+
+import {registration, signIn , loggingOut} from './LoginScreen_func';
 
 const Login=props=>{
-const [email,setEmail]=useState('');
-const [enteredEmail,setEnteredEmail]=useState('');
-const [password,setPassword]=useState('');
-const [enteredPassword,setEnteredPassword]=useState('');
+    const [email,setEmail]=useState('');
+    const [enteredEmail,setEnteredEmail]=useState('');
+    const [password,setPassword]=useState('');
+    const [enteredPassword,setEnteredPassword]=useState('');
+    
+    const onEmailChange = inputText =>{
+        setEnteredEmail(inputText);
+        //console.log(enteredEmail);
+    };
+    
+    const onPasswordChange =inputText =>{
+        setEnteredPassword(inputText);
+        //console.log(enteredPassword);
+    };
+    
+    const Onlogin = () =>{
+        console.log(enteredEmail);
+        console.log(enteredPassword);
+        
+        try{
+             if(password.length<=6)
+             {
+                Alert.alert("Password should be more than 6 letters");
+                 return;
+            }
+             else{
+                   signIn(enteredEmail,enteredPassword);
+                 }
+                
+            }
+        //}
+        catch(error){
+            console.log(error.message);
+        }
+        //props.navigation.navigate('StackExpNavigation');
+        
+    };
 
-const onEmailChange = inputText =>{
-    setEnteredEmail(inputText);
-    //console.log(enteredEmail);
-};
+    signInWithGoogle = async() => 
+    {
+        try {
+          await GoogleSignIn.askForPlayServicesAsync();
+          const { type, user } = await GoogleSignIn.signInAsync();
+          const data = await GoogleSignIn.GoogleAuthentication.prototype.toJSON();
+          if (type === 'success') {
+            await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+            const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+            const googleProfileData = await firebase.auth().signInWithCredential(credential);
+            this.onLoginSuccess.bind(this);
+          }
+        } catch ({ message }) {
+          alert('login: Error:' + message);
+        }
+      }
 
-const onPasswordChange =inputText =>{
-    setEnteredPassword(inputText);
-    //console.log(enteredPassword);
-};
+/*
+export default function SignIn() {
 
+    const Login=props=>{
+        const [email,setEmail]=useState('');
+        const [enteredEmail,setEnteredEmail]=useState('');
+        const [password,setPassword]=useState('');
+        const [enteredPassword,setEnteredPassword]=useState('');
+        
+        /*const onEmailChange = inputText =>{
+            setEnteredEmail(inputText);
+            //console.log(enteredEmail);
+        };
+        
+        const onPasswordChange =inputText =>{
+            setEnteredPassword(inputText);
+            //console.log(enteredPassword);
+        };
+  
+    const handlePress = () => {
+      if (!email) {
+        Alert.alert('Email field is required.');
+      }
+  
+      if (!password) {
+        Alert.alert('Password field is required.');
+      }
+  
+      if(enteredPassword.length<=6)
+            {
+                Alert.alert("Password should be more than 6 letters");
+                return;
+            }
+                else
+                {
+                    signIn(enteredEmail,enteredPassword);
+                }
+            
+    };
+  
+    } */
+/*
+async signInWithEmail() {
+    await firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password)
+      .then(this.onLoginSuccess.bind(this))
+      .catch(error => {
+          let errorCode = error.code;
+          let errorMessage = error.message;
+          if (errorCode == 'auth/weak-password') {
+              this.onLoginFailure.bind(this)('Weak Password!');
+          } else {
+              this.onLoginFailure.bind(this)(errorMessage);
+          }
+      });
+  }
+  
 const Onlogin = () =>{
     console.log(enteredEmail);
     console.log(enteredPassword);
-    
+    setEmail(enteredEmail);
+    setPassword(enteredPassword);
     try{
-        // if(password.length<=6)
-        // {
-        //     Alert.alert("Password should be more than 6 letters");
-        //     return;
-        // }
-        // else{
-            firebase.auth().signInWithEmailAndPassword(enteredEmail, enteredPassword)
+            if(enteredPassword.length<=6)
+            {
+                Alert.alert("Password should be more than 6 letters");
+                return;
+            }
+           else{
+           
+            if()
+            {
+                firebase.auth().createUserWithEmailAndPassword(enteredEmail, enteredPassword)
+                    .then((user) =>
+                    dispatch({ type: USER_LOGIN_SUCCESS, payload: user }));
+
+                    const dbRoot = firebase.firestore().collection('login_database');
+
+                    const defaultDoc = {
+                            email_id: enteredEmail,
+                            user_password: enteredPassword
+                        };
+
+                    addData = async() =>
+                    {
+                        await  dbRoot.doc(user.user.uid).set(defaultDoc);
+                        }
+
+                        
+                    }
+            }
+            else
+            {
+                firebase.auth().signInWithEmailAndPassword(enteredEmail, enteredPassword)
                 .then((user) => {
                     // Signed in 
                     // ...
@@ -43,16 +169,61 @@ const Onlogin = () =>{
                     //var errorMessage = error.message;
                     console.log(error.message);
                 });
-            
-        }
-    //}
+            }
+                    
+    
     catch(error){
         console.log(error.message);
     }
+    }
     //props.navigation.navigate('StackExpNavigation');
-    
-}
+    /*
+    if(password.length<6)
+    {
+        Alert.alert("Password should be greater than 6");
+        return;
+    }
+    try
+    {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((user) =>
+        dispatch({ type: USER_LOGIN_SUCCESS, payload: user }));
 
+        const dbRoot = firebase.firestore().collection('login_database');
+
+        const defaultDoc = {
+                email_id: email,
+                user_password: password
+            };
+
+       addData = async() =>
+       {
+         await  dbRoot.doc(user.user.uid).set(defaultDoc);
+        }
+    }
+    
+    catch(error)
+    {
+        console.log(error);
+    }
+}
+*/
+/*
+async signInWithGoogle() {
+    try {
+      await GoogleSignIn.askForPlayServicesAsync();
+      const { type, user } = await GoogleSignIn.signInAsync();
+      const data = await GoogleSignIn.GoogleAuthentication.prototype.toJSON();
+      if (type === 'success') {
+        await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+        const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+        const googleProfileData = await firebase.auth().signInWithCredential(credential);
+        this.onLoginSuccess.bind(this);
+      }
+    } catch ({ message }) {
+      alert('login: Error:' + message);
+    }
+  }*/
 return (
     <View style={styles.screen}>
 
@@ -62,7 +233,7 @@ return (
             textAlign={'center'} 
             placeholder="Email ID"
             placeholderTextColor={Colors.bluegray}
-            onChangeText={onEmailChange}
+            //onChangeText={onEmailChange}
         />
         <TextInput 
             style={styles.textInput} 
@@ -71,7 +242,7 @@ return (
             placeholderTextColor={Colors.bluegray}
             autoCorrect={false}
             secureTextEntry={true}    
-            onChangeText={onPasswordChange}
+            //onChangeText={onPasswordChange}
         />
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
         <TouchableOpacity 
@@ -87,10 +258,12 @@ return (
             <GreyLine styles={styles.greyline}/>
         </View>
 
-        <TouchableOpacity style={styles.buttonContainergoogle}>
+        <TouchableOpacity style={styles.buttonContainergoogle} onPress={() => this.signInWithGoogle()}>
             <Image source={Images.google} style={styles.googlelogo}/>
             <Text style={styles.google}>Sign In with Google</Text>
         </TouchableOpacity>
+
+        <Text style={styles.forgotPassword}>Dont have an acc?</Text>
 
     </View>
 );
@@ -179,4 +352,3 @@ const styles=StyleSheet.create({
         color:Colors.bluegray
     },
 });
-export default Login;

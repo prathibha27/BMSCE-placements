@@ -9,9 +9,52 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import PostDetail from './PostDetailScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Colors from '../Constants/Colors';
+import firebase from "firebase"
+require("firebase/firestore");
 
+const firebaseConfig = 
+{ 
+    apiKey: "AIzaSyByhSbCr0uCKEMf7SUe5EjiV170O2LGFIs",
+  authDomain: "bmsce-placements-af860.firebaseapp.com",
+  databaseURL: "https://bmsce-placements-af860.firebaseio.com",
+  projectId: "bmsce-placements-af860",
+  storageBucket: "bmsce-placements-af860.appspot.com",
+  messagingSenderId: "128144094885",
+  appId: "1:128144094885:web:55987fac34050c02213f4c",
+  measurementId: "G-C7R3HV9G5R"
+ } 
+firebase.initializeApp(firebaseConfig);
 
+var db = firebase.firestore();
+/*
+  componentDidMount()
+  {
+    var db = firebase.firestore();
+    var docRef = db.collection("senior_experience");
+    const output = {};
 
+    docRef.limit(50)
+		.get()
+		.then(querySnapshot => {
+			querySnapshot.docs.map(function (documentSnapshot) {
+				return (output[documentSnapshot.id] = documentSnapshot.data());
+			});
+      this.setState({dataSource: Object.entries(output)}) ;
+      console.log("datasource:", this.state.dataSource );
+		});
+  }
+/*
+db.collection("senior_experience").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+        .get().addOnCompleteListener(task -> {
+    if(task.isSuccessful() && task.getResult() != null){
+        String firstName = task.getResult().getString("First Name");
+        String email = task.getResult().getString("Email");
+        String phone = task.getResult().getString("Phone");
+        //other stuff
+    }else{
+        //deal with error
+    }
+});*/
 
 
 const Experiences=props=>{
