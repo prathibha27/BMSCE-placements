@@ -1,10 +1,12 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Images from '../Constants/Images';
 import { FlatList, SafeAreaView, StatusBar, StyleSheet, Text, TouchableOpacity ,View } from "react-native";
 import  Header  from '../Components/Header';
 import GreyLine from '../Components/GreyLine';
 import Notification from '../Components/Notification';
-
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+/*
 const DATA = [
   {
     id: "1",
@@ -96,17 +98,29 @@ const DATA = [
 
 
   
-];
+];*/
 
 
-const Experiences=props=>{
+const Notifications=props=>{
 
+  var db = firebase.firestore();
+  var initial_data=[];
+  db.collection("Notifications").get().then(function(querySnapshot) {
+    querySnapshot.forEach(function(doc) {
+        // doc.data() is never undefined for query doc snapshots
+        //console.log(doc.id, " => ", doc.data());
+        initial_data.push(doc.data());
+        //console.log(doc.data());
+    });
+  });
+
+  const [DATA,setDATA]=useState(initial_data);
   const renderItem = ({ item }) => (
     <Notification
-    image={item.image}
-    name={item.name}
-    branch={item.branch}
-    subject={item.subject}
+    image={Images.bmscelogo}
+    name={item.subject}
+    branch={""}
+    subject={item.text}
     />
   );
 
@@ -143,4 +157,4 @@ const styles=StyleSheet.create({
     },
 
 });
-export default Experiences;
+export default Notifications;

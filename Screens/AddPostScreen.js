@@ -12,15 +12,16 @@ const AddPostScreen=props=>{
     const username=props.route.params.username;
     const branch=props.route.params.branch;
 
+
     const [enteredText,setEnteredText] = useState('');
     const setEnteredTextHandler=(enteredVal) =>  {
-        console.log(enteredVal);
+        //console.log(enteredVal);
         setEnteredText(enteredVal);
       };
 
       const [enteredSub,setEnteredSub] = useState('');
       const setEnteredSubHandler=(enteredVal) =>  {
-          console.log(enteredVal);
+          //console.log(enteredVal);
           setEnteredSub(enteredVal);
         };
   return (
@@ -62,7 +63,8 @@ const AddPostScreen=props=>{
             </View>
 
             <TouchableOpacity style={styles.post_button} onPress={()=>{
-                props.route.params.onAddDataHandlerp({
+                props.navigation.navigate(
+                    'ExperiencesScreen',{
                     id: Math.floor(Math.random() * 1000) + 1  ,
                     name: username,
                     image: Images.profilepic,
@@ -72,7 +74,7 @@ const AddPostScreen=props=>{
                     text:enteredText
 
                 });
-                props.navigation.pop();
+                
             }
             }>
                 <Text style={styles.post}>POST</Text>

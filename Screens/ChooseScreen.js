@@ -5,7 +5,7 @@ import Images from '../Constants/Images';
 import * as firebase from 'firebase';
 import GreyLine from '../Components/GreyLine';
 
-const Login=props=>{
+const Choose=props=>{
 const [email,setEmail]=useState('');
 const [enteredEmail,setEnteredEmail]=useState('');
 const [password,setPassword]=useState('');
@@ -58,28 +58,13 @@ return (
     <View style={styles.screen}>
 
         <Image source={Images.bmscelogo} style={styles.logo}/>
-        <TextInput 
-            style={styles.textInput} 
-            textAlign={'center'} 
-            placeholder="Email ID"
-            placeholderTextColor={Colors.bluegray}
-            onChangeText={onEmailChange}
-        />
-        <TextInput 
-            style={styles.textInput} 
-            textAlign={'center'} 
-            placeholder="Password" 
-            placeholderTextColor={Colors.bluegray}
-            autoCorrect={false}
-            secureTextEntry={true}    
-            onChangeText={onPasswordChange}
-        />
-        <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        
+        <Text style={styles.forgotPassword}>Choose an account!!</Text>
         <TouchableOpacity 
-            style={styles.buttonContainer}
+            style={styles.buttonContainergoogle}
             onPress={Onlogin}
         >
-            <Text style={styles.continue}>Continue</Text>
+            <Text style={styles.continue}>Placement Coordinator</Text>
         </TouchableOpacity>
 
         <View style={styles.seperator}>
@@ -88,9 +73,11 @@ return (
             <GreyLine styles={styles.greyline}/>
         </View>
 
-        <TouchableOpacity style={styles.buttonContainergoogle}>
-            <Image source={Images.google} style={styles.googlelogo}/>
-            <Text style={styles.google}>Sign In with Google</Text>
+        <TouchableOpacity 
+            style={styles.buttonContainergoogle}
+            onPress={Onlogin}
+        >
+            <Text style={styles.continue}>Student</Text>
         </TouchableOpacity>
 
     </View>
@@ -142,13 +129,13 @@ const styles=StyleSheet.create({
     },
 
     continue:{
-        color:'#000000',
+        color:'#ffffff',
         fontSize:18,
     },
 
     logo:{
-        width:70,
-        height:70,
+        width:150,
+        height:150,
         marginTop:100,
         marginBottom:20
     },
@@ -165,7 +152,7 @@ const styles=StyleSheet.create({
 
     forgotPassword:{
         fontWeight:"bold",
-        fontSize:14,
+        fontSize:20,
         color:Colors.forgotPasswordBlue,
     },
 
@@ -180,4 +167,4 @@ const styles=StyleSheet.create({
         color:Colors.bluegray
     },
 });
-export default Login;
+export default Choose;

@@ -4,11 +4,10 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Colors from '../Constants/Colors';
 import Experiences from '../Screens/ExperiencesScreen';
-import Notifications from '../Screens/NotificationsScreen';
 import Profile from '../Screens/Profile2Screen';
 import GreyLine from '../Components/GreyLine';
-import StackExpNavigation from '../Routes/StackExpNavigation';
-import StackProfileNavigation from '../Routes/StackProfileNavigation';
+import PDNotifications from '../Screens/PDNotifications';
+import AddUser from '../Screens/AddUser';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -23,37 +22,25 @@ export default function MyTabs() {
       barStyle={{ backgroundColor: 'black' }}
     >
       <Tab.Screen
-        name="Home"
-        component={StackExpNavigation}
+        name="Notifications"
+        component={PDNotifications}
         options={{
           //tabBarLabel: 'Home',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <MaterialCommunityIcons name="bell" color={color} size={26} />
           ),
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={StackProfileNavigation}
-        options={{
-          //tabBarLabel: 'Profile',
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={Notifications}
+        name="AddUser"
+        component={AddUser}
         options={{
           //tabBarLabel: 'Updates',
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={26} />
+            <MaterialCommunityIcons name="account" color={color} size={26} />
           ),
         }}
       />
     </Tab.Navigator>
   );
 }
-
-

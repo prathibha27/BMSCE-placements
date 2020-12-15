@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import Images from '../Constants/Images';
 import { StyleSheet, Text, View ,Image,TextInput ,TouchableWithoutFeedback} from "react-native";
 import  Header  from '../Components/Header';
@@ -6,12 +6,65 @@ import Colors from '../Constants/Colors';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Profile3 from './Profile3Screen';
-
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const Profile2=props=>{
+
+var db = firebase.firestore();
+var uid="us4G93I1WiYAe2QTBKbgDe3kvG93";
+var docRef = db.collection("UserDetails").doc(uid);
+var present_data={};
+docRef.get().then(function(doc) {
+    if (doc.exists) {
+        console.log("Document data:", doc.data());
+        present_data=doc.data();
+    } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+    }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});
+
+
+const [firstname,setFirstname]=useState(present_data.firstname);
+const onFirstnameChange = inputText =>{
+    setFirstname(inputText);
+    //console.log("Firstname: ",firstname);
+};
+
+const [lastname,setLastname]=useState(present_data.lastname);
+const onLastnameChange = inputText =>{
+    setLastname(inputText);
+    //console.log("Lastname: ",lastname);
+};
+
+const [usn,setUsn]=useState(present_data.usn);
+const onUsnChange = inputText =>{
+    setUsn(inputText);
+    //console.log("Usn: ",usn);
+};
+
+const [year,setYear]=useState(present_data.year);
+const onYearChange = inputText =>{
+    setYear(inputText);
+    //console.log("Year: ",year);
+};
+
 const navigateHandler = () =>{
-    props.navigation.navigate('Profile3');
+    console.log(firstname,"  ",lastname,"  ",usn,"  ",year);
+    props.navigation.navigate('Profile3Screen',
+            {
+                present_data:present_data,
+                firstname:firstname,
+                lastname:lastname,
+                year:year,
+                usn:usn
+            });
 }
+
+
 return (
     <View style={styles.screen}>
         <Header />
@@ -25,7 +78,8 @@ return (
             placeholder="First Name" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            val
+            onChangeText={onFirstnameChange}
             />
             <TextInput 
             style={styles.textInput} 
@@ -33,7 +87,7 @@ return (
             placeholder="Last Name" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onLastnameChange}
             />
             <TextInput 
             style={styles.textInput} 
@@ -41,7 +95,7 @@ return (
             placeholder="USN" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onUsnChange}
             />
             <TextInput 
             style={styles.textInput} 
@@ -49,10 +103,13 @@ return (
             placeholder="Year of Study" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onYearChange}
             />
 
-            <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate('Profile3Screen');}}>
+            <TouchableWithoutFeedback 
+                //onPress={()=>{props.navigation.navigate('Profile3Screen');}}
+                onPress={navigateHandler}
+                >
                 <Ionicons name='md-arrow-forward' size={30} color={Colors.gray} style={styles.arrow_right} /> 
             </TouchableWithoutFeedback>
              

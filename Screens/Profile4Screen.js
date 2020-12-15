@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, TouchableOpacity ,View ,Image,TextInput} from "react-native";
 import  Header  from '../Components/Header';
 import Colors from '../Constants/Colors';
@@ -7,6 +7,82 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const Profile4=props=>{
 
+    const [branch,setBranch]=useState('');
+    const onBranchChange = inputText =>{
+        setBranch(inputText);
+        //console.log(branch);
+    };
+    
+    const [activeBacklogs,setActiveBacklogs]=useState('');
+    const onActiveBacklogsChange = inputText =>{
+        setActiveBacklogs(inputText);
+        //console.log(activeBacklogs);
+    };
+    
+    const [noofbacklogs,setNoofbacklogs]=useState('');
+    const onNoofbacklogsChange = inputText =>{
+        setNoofbacklogs(inputText);
+        //console.log(noofbacklogs);
+    };
+    
+    const [emailid,setEmailid]=useState('');
+    const onEmailidChange = inputText =>{
+        setEmailid(inputText);
+        //console.log(emailid);
+    };
+
+    const [contactno,setContactno]=useState('');
+    const onContactnoChange = inputText =>{
+        setContactno(inputText);
+        //console.log(contactno);
+    };
+
+    const [address,setAddress]=useState('');
+    const onAddressChange = inputText =>{
+        setAddress(inputText);
+        //console.log(address);
+    };
+    
+    const navigateHandler = () =>{
+        const {firstname,
+            lastname,
+            usn,
+            year,
+            gender,
+            tenth,
+            twelth,
+            becgpa,
+            dob,
+            diplomacgpa}=props.route.params;
+        console.log(firstname,
+            lastname,
+            usn,
+            year,
+            gender,
+            tenth,
+            twelth,
+            becgpa,
+            dob,
+            diplomacgpa);
+        props.navigation.navigate('Profile5Screen',{
+            firstname,
+            lastname,
+            usn,
+            year,
+            gender,
+            tenth,
+            twelth,
+            becgpa,
+            dob,
+            diplomacgpa,
+            activeBacklogs,
+            noofbacklogs,
+            branch,
+            emailid,
+            contactno,
+            address
+        });
+    }
 return (
     <View style={styles.screen}>
         <Header />
@@ -21,7 +97,7 @@ return (
             placeholder="B.E(Branch)" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onBranchChange}
             />
             <TextInput 
             style={styles.textInput} 
@@ -29,15 +105,16 @@ return (
             placeholder="Active Backlogs" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onActiveBacklogsChange}
             />
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
             placeholder="Number of backlogs" 
+            keyboardType = 'number-pad'
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onNoofbacklogsChange}
             />
 
             <TextInput 
@@ -46,16 +123,18 @@ return (
             placeholder="Email ID" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onEmailidChange}
             />
 
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
             placeholder="Contact number" 
+            keyboardType = 'number-pad'
+            maxLength={10}
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onContactnoChange}
             />
 
             <TextInput 
@@ -64,14 +143,14 @@ return (
             placeholder="Resedential Address" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onAddressChange}
             />
         </View>
         <View style={styles.arrow_container}>
-            <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate('Profile3Screen');}}>
+            <TouchableWithoutFeedback onPress={()=>{}}>
                 <Ionicons name='md-arrow-back' size={30} color={Colors.gray} style={styles.arrow_left} />
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate('Profile5Screen');}}>
+            <TouchableWithoutFeedback onPress={navigateHandler}>
                 <Ionicons name='md-arrow-forward' size={30} color={Colors.gray} style={styles.arrow_right} />
             </TouchableWithoutFeedback> 
         </View>

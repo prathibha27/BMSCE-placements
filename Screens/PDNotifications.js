@@ -14,13 +14,11 @@ import 'firebase/firestore';
 
 
 
-const Experiences=props=>{
+const PDNotifications=props=>{
 
-  var user=firebase.auth().currentUser;
-  console.log(user);
   var db = firebase.firestore();
   var initial_data=[];
-  db.collection("Experiences").get().then(function(querySnapshot) {
+  db.collection("Notifications").get().then(function(querySnapshot) {
     querySnapshot.forEach(function(doc) {
         // doc.data() is never undefined for query doc snapshots
         //console.log(doc.id, " => ", doc.data());
@@ -29,20 +27,6 @@ const Experiences=props=>{
     });
 });
 
-const onAddDataHandler = (enteredData) =>{
-  console.log(enteredData);
-  setDATA([...DATA, 
-    {
-      id:enteredData.id,
-      name:enteredData.name,
-      branch:enteredData.branch,
-      image:enteredData.image,
-      title:enteredData.title,
-      subject:enteredData.subject,
-      text:enteredData.text
-    
-    } ]);
-};
 
 
 const [isModalOpen,setIsModalOpen]=useState(false);
@@ -52,23 +36,6 @@ console.log(props.route.params);
 //console.log(initial_data);
 const [DATA,setDATA]=useState(initial_data);
 
-// if(props.route.params!=undefined)
-// {
-//     console.log("is not undefined");
-//     console.log(props.route.params.branch);
-//     console.log(props.route.params.name);
-//     setDATA([...DATA, 
-//       {
-//         id:props.route.params.id,
-//         name:props.route.params.name,
-//         branch:props.route.params.branch,
-//         image:props.route.params.image,
-//         title:props.route.params.title,
-//         subject:props.route.params.subject,
-//         text:props.route.params.text
-      
-//       } ]);
-// }
 
 
 /*
@@ -170,8 +137,8 @@ const [DATA,setDATA]=useState(initial_data);
   
 
 
- const username="saakshi";
- const branch="Computer science and Engineering";
+ const username="BMSCE PLO";
+ const branch="";
 
 
  const [enteredText,setEnteredText] = useState('');
@@ -199,10 +166,10 @@ const [DATA,setDATA]=useState(initial_data);
             });
         }}>
         <Post 
-        image={Images.profilepic}
-        name={item.name}
-        branch={item.branch}
-        subject={item.subject}
+        image={Images.bmscelogo}
+        name={item.subject}
+        branch={""}
+        subject={item.text}
         />
     </TouchableOpacity>
   );
@@ -215,15 +182,15 @@ return (
           <View style={styles.modalscreen}>
               <View style={styles.inner_container}>
                     <View style={styles.header}>
-                        <Image source={Images.profilepic} style={styles.profilepic}/>
+                        <Image source={Images.bmscelogo} style={styles.profilepic}/>
                         <View style={styles.name_container}>
                             <Text style={styles.name}>{username}</Text>
-                            <Text style={styles.branch}>{branch}</Text>
+                            
                         </View>
                     </View>
                     <TextInput
                         style={styles.subinput}
-                        placeholder={'Company Name'}
+                        placeholder={'Subject'}
                         placeholderTextColor={Colors.blue}
                         onChangeText={setEnteredSubHandler}
                         value={enteredSub} 
@@ -231,7 +198,7 @@ return (
                     <ScrollView style={styles.scrollview}>
                         <TextInput
                             style={styles.textinput}
-                            placeholder={'Add Post here...'}
+                            placeholder={'Notifications Detials...'}
                             placeholderTextColor={Colors.gray}
                             placeholderFontSize={20}
                             onChangeText={setEnteredTextHandler}
@@ -247,13 +214,10 @@ return (
 
             <Button title="POST" style={styles.post_button} onPress={()=>{
               
-              db.collection("Experiences").doc().set({
+              db.collection("Notifications").doc().set({
                 id: (Math.floor(Math.random() * 1000)+1).toString()  ,
                 name: username,
-                image: Images.profilepic,
-                branch: branch,
-                title: enteredSub,
-                subject:enteredText,
+                subject:enteredSub,
                 text:enteredText
               })
               .then(function() {
@@ -397,4 +361,4 @@ const styles=StyleSheet.create({
   }
 
 });
-export default Experiences;
+export default PDNotifications;

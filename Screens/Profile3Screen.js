@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { StyleSheet, Text, TouchableOpacity ,View ,Image,TextInput} from "react-native";
 import  Header  from '../Components/Header';
 import Colors from '../Constants/Colors';
@@ -8,10 +8,60 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 const Profile3=props=>{
 
-const navigateHandler=()=>{
-    console.log("Clicked");
-    props.navigation.navigate('Profile4');
-}
+    const [gender,setGender]=useState('');
+    const onGenderChange = inputText =>{
+        setGender(inputText);
+        //console.log(gender);
+    };
+    
+    const [dob,setDob]=useState('');
+    const onDobChange = inputText =>{
+        setDob(inputText);
+        //console.log(dob);
+    };
+    
+    const [tenth,setTenth]=useState('');
+    const onTenthChange = inputText =>{
+        setTenth(inputText);
+        //console.log(tenth);
+    };
+    
+    const [diplomacgpa,setDiplomacgpa]=useState('');
+    const onDiplomaChange = inputText =>{
+        setDiplomacgpa(inputText);
+        //console.log(diplomacgpa);
+    };
+
+    const [becgpa,setBecgpa]=useState('');
+    const onBecgpaChange = inputText =>{
+        setBecgpa(inputText);
+        //console.log(becgpa);
+    };
+
+    const [twelth,setTwelth]=useState('');
+    const onTwelthChange = inputText =>{
+        setTwelth(inputText);
+        //console.log(becgpa);
+    };
+    
+    const navigateHandler = () =>{
+        
+        const {firstname,lastname,usn,year}=props.route.params;
+        console.log(firstname,"  ",lastname,"  ",usn,"  ",year);
+        console.log(gender,"  ",tenth,"  ",diplomacgpa,"  ",becgpa);
+        props.navigation.navigate('Profile4Screen',{
+            firstname:firstname,
+            lastname:lastname,
+            usn:usn,
+            year:year,
+            gender:gender,
+            tenth:tenth,
+            twelth:twelth,
+            becgpa:becgpa,
+            dob:dob,
+            diplomacgpa:diplomacgpa
+        });
+    }
 
 return (
     <View style={styles.screen}>
@@ -27,7 +77,7 @@ return (
             placeholder="Gender" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onGenderChange}
             />
             <TextInput 
             style={styles.textInput} 
@@ -35,48 +85,53 @@ return (
             placeholder="Date of birth" 
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onDobChange}
             />
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
             placeholder="10th Percentage" 
+            keyboardType = 'number-pad'
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onTenthChange}
             />
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
             placeholder="12th Percentage" 
+            keyboardType = 'number-pad'
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onTwelthChange}
             />
 
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
             placeholder="Diploma Percentage" 
+            keyboardType = 'number-pad'
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onDiplomaChange}
             />
 
             <TextInput 
             style={styles.textInput} 
             textAlign={'left'} 
             placeholder="B.E(CGPA)" 
+            keyboardType = 'number-pad'
             placeholderTextColor={Colors.blue}
             autoCorrect={false} 
-            //onChangeText={onPasswordChange}
+            onChangeText={onBecgpaChange}
             />
 
             <View style={styles.arrow_container}>
                 <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate('Profile2Screen');}}>
                     <Ionicons name='md-arrow-back' size={30} color={Colors.gray} style={styles.arrow_left} />
                 </TouchableWithoutFeedback>
-                <TouchableWithoutFeedback onPress={()=>{props.navigation.navigate('Profile4Screen');}}>
+                <TouchableWithoutFeedback 
+                onPress={navigateHandler}>
                     <Ionicons name='md-arrow-forward' size={30} color={Colors.gray} style={styles.arrow_right} />
                 </TouchableWithoutFeedback>
                 

@@ -15,11 +15,16 @@ import Profile2 from './Screens/Profile2Screen';
 import Profile3 from './Screens/Profile3Screen';
 import Profile4 from './Screens/Profile4Screen';
 import Profile5 from './Screens/Profile5Screen';
+import ChooseScreen from './Screens/ChooseScreen';
 import StackLoginNavigation from './Routes/StackLoginNavigation';
 import Profile from './Screens/Profile1Screen';
+import StackLoginPDNavigation from './Routes/StackLoginPDNavigation';
 import * as firebase from 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
+import image_picker_check from './Screens/image_picker_check';
+
+
 var firebaseConfig = {
   apiKey: "AIzaSyC4QMPglj6Kj_zU9yMJdrs0qScEylISs0E",
   authDomain: "bmsce-placements-83244.firebaseapp.com",
@@ -42,8 +47,14 @@ export default function App() {
     // <NavigationContainer style={styles.container}>
     //   <StackLoginNavigation/>
     // </NavigationContainer>
+
+    <NavigationContainer style={styles.container}>
+      <StackLoginPDNavigation/>
+    </NavigationContainer>
+
     //<Profile5/>
-    <Login/>
+    //<ChooseScreen/>
+    //<image_picker_check/>
     
   );
 }

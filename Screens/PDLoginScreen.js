@@ -7,14 +7,11 @@ import GreyLine from '../Components/GreyLine';
 
 const Login=props=>{
 const [email,setEmail]=useState('');
-const [enteredEmail,setEnteredEmail]=useState('');
+//const [enteredEmail,setEnteredEmail]=useState('');
 const [password,setPassword]=useState('');
 const [enteredPassword,setEnteredPassword]=useState('');
 
-const onEmailChange = inputText =>{
-    setEnteredEmail(inputText);
-    //console.log(enteredEmail);
-};
+
 
 const onPasswordChange =inputText =>{
     setEnteredPassword(inputText);
@@ -32,13 +29,13 @@ const Onlogin = () =>{
         //     return;
         // }
         // else{
-            firebase.auth().signInWithEmailAndPassword(enteredEmail, enteredPassword)
+            firebase.auth().signInWithEmailAndPassword("bms.plo@bmsce.ac.in", enteredPassword)
                 .then((user) => {
                     // Signed in 
                     var uid=user.user.uid;
                     console.log(uid);
                     console.log("signed in");
-                    props.navigation.navigate('StackExpNavigation');
+                    props.navigation.navigate('PDtabs');
                 })
                 .catch((error) => {
                     //var errorMessage = error.message;
@@ -58,13 +55,6 @@ return (
     <View style={styles.screen}>
 
         <Image source={Images.bmscelogo} style={styles.logo}/>
-        <TextInput 
-            style={styles.textInput} 
-            textAlign={'center'} 
-            placeholder="Email ID"
-            placeholderTextColor={Colors.bluegray}
-            onChangeText={onEmailChange}
-        />
         <TextInput 
             style={styles.textInput} 
             textAlign={'center'} 
@@ -88,10 +78,6 @@ return (
             <GreyLine styles={styles.greyline}/>
         </View>
 
-        <TouchableOpacity style={styles.buttonContainergoogle}>
-            <Image source={Images.google} style={styles.googlelogo}/>
-            <Text style={styles.google}>Sign In with Google</Text>
-        </TouchableOpacity>
 
     </View>
 );

@@ -4,12 +4,16 @@ import Colors from '../Constants/Colors';
 import Images from '../Constants/Images';
 import * as firebase from 'firebase';
 import GreyLine from '../Components/GreyLine';
+import Header from '../Components/Header';
+import 'firebase/auth';
+import 'firebase/firestore';
 
-const Login=props=>{
-const [email,setEmail]=useState('');
+const AddUser=props=>{
 const [enteredEmail,setEnteredEmail]=useState('');
-const [password,setPassword]=useState('');
 const [enteredPassword,setEnteredPassword]=useState('');
+const [username,setUsername]=useState('');
+const [usn,setUsn]=useState('');
+const [branch,setBranch]=useState('');
 
 const onEmailChange = inputText =>{
     setEnteredEmail(inputText);
@@ -19,6 +23,18 @@ const onEmailChange = inputText =>{
 const onPasswordChange =inputText =>{
     setEnteredPassword(inputText);
     //console.log(enteredPassword);
+};
+
+const onUsernameChange =inputText =>{
+    setUsername(inputText);
+};
+
+const onUsnChange =inputText =>{
+    setUsn(inputText);
+};
+
+const onBranchChange =inputText =>{
+    setBranch(inputText);
 };
 
 const Onlogin = () =>{
@@ -32,13 +48,27 @@ const Onlogin = () =>{
         //     return;
         // }
         // else{
-            firebase.auth().signInWithEmailAndPassword(enteredEmail, enteredPassword)
+            var db = firebase.firestore();
+            firebase.auth().createUserWithEmailAndPassword(enteredEmail, enteredPassword)
                 .then((user) => {
                     // Signed in 
                     var uid=user.user.uid;
                     console.log(uid);
-                    console.log("signed in");
-                    props.navigation.navigate('StackExpNavigation');
+                    console.log("user created");
+
+                    db.collection("UserDetails").doc(uid).set({
+                        username: username,
+                        emailid: enteredEmail,
+                        usn: usn,
+                        branch:branch
+                    })
+                    .then(function() {
+                        console.log("Document successfully written!");
+                    })
+                    .catch(function(error) {
+                        console.error("Error writing document: ", error);
+                    });
+                    
                 })
                 .catch((error) => {
                     //var errorMessage = error.message;
@@ -56,7 +86,7 @@ const Onlogin = () =>{
 
 return (
     <View style={styles.screen}>
-
+        <Header style={styles.header}/>
         <Image source={Images.bmscelogo} style={styles.logo}/>
         <TextInput 
             style={styles.textInput} 
@@ -74,7 +104,28 @@ return (
             secureTextEntry={true}    
             onChangeText={onPasswordChange}
         />
-        <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        <TextInput 
+            style={styles.textInput} 
+            textAlign={'center'} 
+            placeholder="username"
+            placeholderTextColor={Colors.bluegray}
+            onChangeText={onUsernameChange}
+        />
+        <TextInput 
+            style={styles.textInput} 
+            textAlign={'center'} 
+            placeholder="USN"
+            placeholderTextColor={Colors.bluegray}
+            onChangeText={onUsnChange}
+        />
+
+        <TextInput 
+            style={styles.textInput} 
+            textAlign={'center'} 
+            placeholder="Branch"
+            placeholderTextColor={Colors.bluegray}
+            onChangeText={onBranchChange}
+        />
         <TouchableOpacity 
             style={styles.buttonContainer}
             onPress={Onlogin}
@@ -88,10 +139,10 @@ return (
             <GreyLine styles={styles.greyline}/>
         </View>
 
-        <TouchableOpacity style={styles.buttonContainergoogle}>
+        {/* <TouchableOpacity style={styles.buttonContainergoogle}>
             <Image source={Images.google} style={styles.googlelogo}/>
             <Text style={styles.google}>Sign In with Google</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
     </View>
 );
@@ -101,9 +152,13 @@ const styles=StyleSheet.create({
     screen:{
         flex:1,
         backgroundColor:Colors.black,
-        alignItems:'center'
+        alignItems:'center',
+        marginTop:0
     },
 
+    header:{
+        marginTop:0
+    },
     greyline:{
         width:150,
         borderWidth:1,
@@ -149,7 +204,7 @@ const styles=StyleSheet.create({
     logo:{
         width:70,
         height:70,
-        marginTop:100,
+        marginTop:30,
         marginBottom:20
     },
 
@@ -180,4 +235,4 @@ const styles=StyleSheet.create({
         color:Colors.bluegray
     },
 });
-export default Login;
+export default AddUser;
