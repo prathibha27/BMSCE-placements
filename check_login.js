@@ -5,7 +5,10 @@ import Images from '../Constants/Images';
 import * as firebase from 'firebase';
 import GreyLine from '../Components/GreyLine';
 import * as Google from 'expo-google-app-auth';
+import ExperiencePage from '../Routes/StackExpNavigation';
 import Expo from 'expo';
+
+var passwordValidator = require('password-validator');
 
 const Login=props=>{
 const [email,setEmail]=useState('');
@@ -37,10 +40,13 @@ const Onlogin = () =>{
             firebase.auth().signInWithEmailAndPassword(enteredEmail, enteredPassword)
                 .then((user) => {
                     // Signed in 
+
+                    
                     var uid=user.user.uid;
                     console.log(uid);
                     console.log("signed in");
                     props.navigation.navigate('StackExpNavigation');
+                    
                 })
                 .catch((error) => {
                     //var errorMessage = error.message;
@@ -53,20 +59,8 @@ const Onlogin = () =>{
         console.log(error.message);
     }    
 }
-isUserEqual = (googleUser, firebaseUser) => {
-    if (firebaseUser) {
-      var providerData = firebaseUser.providerData;
-      for (var i = 0; i < providerData.length; i++) {
-        if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
-            providerData[i].uid === googleUser.getBasicProfile().getId()) {
-          // We don't need to reauth the Firebase connection.
-          return true;
-        }
-      }
-    }
-    return false;
-  }
- onSignIn = googleUser => {
+
+onSignIn = (googleUser) => {
     console.log('Google Auth Response', googleUser);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
     var unsubscribe = firebase.auth().onAuthStateChanged((firebaseUser) => {
@@ -75,11 +69,13 @@ isUserEqual = (googleUser, firebaseUser) => {
       if (!this.isUserEqual(googleUser, firebaseUser)) {
         // Build Firebase credential with the Google ID token.
         var credential = firebase.auth.GoogleAuthProvider.credential(
-            googleUser.idToken,googleUser.accessToken);
+            googleUser.id_token,googleUser.accessToken);
+            //googleUser.idToken,
+            //googleUser.accessToken);
   
         // Sign in with credential from the Google user.
         firebase.auth().signInWithCredential(credential).then(function(){
-            console.log("user signed in");
+            console.log('user signed in')
         }).catch((error) => {
           // Handle Errors here.
           var errorCode = error.code;
@@ -93,20 +89,38 @@ isUserEqual = (googleUser, firebaseUser) => {
       } else {
         console.log('User already signed-in Firebase.');
       }
-    });
+    },bind(this)
+    );
+  }
+ isUserEqual = (googleUser, firebaseUser) => {
+    if (firebaseUser) {
+      var providerData = firebaseUser.providerData;
+      for (var i = 0; i < providerData.length; i++) {
+        if (providerData[i].providerId === firebase.auth.GoogleAuthProvider.PROVIDER_ID &&
+            providerData[i].uid === googleUser.getBasicProfile().getId()) {
+          // We don't need to reauth the Firebase connection.
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
-async function signInWithGoogleAsync() {
+ signInWithGoogleAsync = async() => {
     try {
       const result = await Google.logInAsync({
-        behavior: 'web',
-        androidClientId: '91578633765-t42bm6iovm8d5fq9rlu4c8ir5b65ggrv.apps.googleusercontent.com',
+          behavior:'web',
+        //clientId: "91578633765-unpdpsbknd003j4ehnkp4if1pdq88hr9.apps.googleusercontent.com",
+        androidClientId: "91578633765-t42bm6iovm8d5fq9rlu4c8ir5b65ggrv.apps.googleusercontent.com",
         //iosClientId: YOUR_CLIENT_ID_HERE,
         scopes: ['profile', 'email'],
       });
   
       if (result.type === 'success') {
+        console.log(result.accessToken);
+        console.log("signed in");
         this.onSignIn(result);
+        return ExperiencePage;  
       } else {
         return { cancelled: true };
       }
@@ -115,10 +129,45 @@ async function signInWithGoogleAsync() {
     }
   }
 
+  const SignInWithGoogle = () => {
+      signInWithGoogleAsync()
+  }
 
-const signInWithGoogle = () => {
-    signInWithGoogleAsync()
+  validate_password = (enteredPassword) =>
+  {
+
+    var schema = new passwordValidator();
+
+
+    schema
+    .is().min(8)                                    
+    .is().max(100)                                  
+    .has().uppercase()                              
+    .has().lowercase()  
+    
+    if(schema.validate(enteredPassword))
+    {
+        console.log('Strong Password');
+        return true
     }
+    else
+    {
+        console.log('Your password should contain atleast one Captial letter, one small vcase letter and should be of 8 characters min ');
+    }
+  }
+
+const ForgotPass = () => {
+    //var auth = ;
+    //var emailAddress = enteredEmail;
+    
+    firebase.auth().sendPasswordResetEmail(enteredEmail).then(function() {
+      // Email sent.
+    }).catch(function(error) {
+      // An error happened.
+    }
+    )
+    
+}  
 
 return (
     <View style={styles.screen}>
@@ -143,7 +192,7 @@ return (
         <Text style={styles.forgotPassword}>Forgot Password?</Text>
         <TouchableOpacity 
             style={styles.buttonContainer}
-            onPress={Onlogin}
+            onPress={ForgotPass}
         >
             <Text style={styles.continue}>Continue</Text>
         </TouchableOpacity>
@@ -154,13 +203,12 @@ return (
             <GreyLine styles={styles.greyline}/>
         </View>
 
-        <View>
         <TouchableOpacity style={styles.buttonContainergoogle}
-                                 onPress={() => signInWithGoogle()}>
+        onPress={() => SignInWithGoogle() }>
             <Image source={Images.google} style={styles.googlelogo}/>
             <Text style={styles.google}>Sign In with Google</Text>
         </TouchableOpacity>
-        </View>
+
     </View>
 );
 }
